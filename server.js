@@ -27,8 +27,11 @@ app.use(bodyParser.json());
 // app.get("/", (req, res) => res.send("hello"));
 
 // mongodb connection logic updated
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+// const uri = process.env.ATLAS_URI;
+mongoose.connect("mongodb://localhost:27017/dev", {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+});
 
 const connection = mongoose.connection;
 connection.once("open", () => {
