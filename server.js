@@ -1,8 +1,10 @@
 const express = require("express"); // load express
 const mongoose = require("mongoose"); // load mongoose
 const bodyParser = require("body-parser"); // load body parser
+const db = require("./config/keys").mongoURI;
+const passport = require("passport"); // load passport
 
-require("dotenv").config();
+// require("dotenv").config();
 
 // load routes configurations
 const users = require("./routes/api/users");
@@ -16,7 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // db config
-// const db = require("./config/keys").mongoURI;
 
 // db connection first logic
 // mongoose
@@ -24,11 +25,9 @@ app.use(bodyParser.json());
 //   .then(() => console.log("mongodb connected"))
 //   .catch((err) => console.log(err));
 
-// app.get("/", (req, res) => res.send("hello"));
-
 // mongodb connection logic updated
 // const uri = process.env.ATLAS_URI;
-mongoose.connect("mongodb://localhost:27017/dev", {
+mongoose.connect(db, {
   useNewUrlParser: true,
   useCreateIndex: true,
 });
@@ -37,8 +36,14 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("Mongodb connection established succesfully");
 });
-// use routes
 
+// passport middlewares
+app.use(passport.initialize());
+
+// passport config
+require("./config/passport")(passport);
+
+// use routes
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
