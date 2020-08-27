@@ -15,7 +15,7 @@ const validateLoginInput = require("../../validation/login"); // login input val
 
 router.get("/test", (req, res) => res.json({ msg: "users works" }));
 
-// @route Get Api/users/register
+// @route post Api/users/register
 // desc   register user
 // @access public
 

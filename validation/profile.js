@@ -5,12 +5,12 @@ const { default: validator } = require("validator");
 module.exports = function validateProfileInput(data) {
   let errors = {};
 
-  data.handle = !isEmpty(data.handle) ? data.handle : " "; //chang null/unfefined value tostring
-  data.status = !isEmpty(data.status) ? data.status : " "; //chang null/unfefined value tostring
-  data.skills = !isEmpty(data.skills) ? data.skills : " "; //chang null/unfefined value tostring
+  data.handle = !isEmpty(data.handle) ? data.handle : ""; //chang null/unfefined value tostring
+  data.status = !isEmpty(data.status) ? data.status : ""; //chang null/unfefined value tostring
+  data.skills = !isEmpty(data.skills) ? data.skills : ""; //chang null/unfefined value tostring
 
   if (!validator.isLength(data.handle, { min: 2, max: 40 })) {
-    errors.handle = "handle needs to be between 2 & 40 characters";
+    errors.handle = "Handle needs to be between 2 & 40 characters";
   }
 
   if (validator.isEmpty(data.handle)) {
@@ -18,11 +18,11 @@ module.exports = function validateProfileInput(data) {
   }
 
   if (validator.isEmpty(data.status)) {
-    errors.status = "status field  is required";
+    errors.status = "Status field  is required";
   }
 
   if (validator.isEmpty(data.skills)) {
-    errors.skills = "skills field  is required";
+    errors.skills = "Skills field  is required";
   }
 
   if (!isEmpty(data.website)) {
