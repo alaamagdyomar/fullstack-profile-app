@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
+import ProtoTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import classnames from "classnames";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 
 class Register extends Component {
   constructor() {
@@ -10,10 +13,16 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
-      errors: "",
+      errors: {},
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onChange(e) {
@@ -27,10 +36,7 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2,
     };
-    axios
-      .post("/api/users/register", newUser)
-      .then((res) => console.log(res.data))
-      .catch((err) => this.setState({ errors: err.response.data })); // (err.response.data) to print the error in errors obj not in network
+    this.props.registerUser(newUser, this.props.history);
   }
   render() {
     const { errors } = this.state;
@@ -117,4 +123,16 @@ class Register extends Component {
     );
   }
 }
-export default Register;
+
+Register.protoTypes = {
+  registerUser: ProtoTypes.func.isRequired,
+  auth: ProtoTypes.object.isRequired,
+  errors: ProtoTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
