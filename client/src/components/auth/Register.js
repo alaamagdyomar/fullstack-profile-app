@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ProtoTypes from "prop-types";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import classnames from "classnames";
 import { connect } from "react-redux";
@@ -19,7 +19,7 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
@@ -124,10 +124,10 @@ class Register extends Component {
   }
 }
 
-Register.protoTypes = {
-  registerUser: ProtoTypes.func.isRequired,
-  auth: ProtoTypes.object.isRequired,
-  errors: ProtoTypes.object.isRequired,
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
